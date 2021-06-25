@@ -49,8 +49,13 @@
                         <ul class="nav flex-column">
                             <li class="nav-item">
                                <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
-                              <a class="nav-link active" href="{{ route('categories.index') }}">Categories</a>
                             </li>
+                            <li class="nav-item">
+                               <a class="nav-link active" href="{{ route('categories.index') }}">Categories</a>
+                             </li>
+                             <li class="nav-item">
+                               <a class="nav-link" href="{{ route('tags.index') }}">Tags</a>
+                             </li>
                         </ul>
                     </div>
                 </div>
