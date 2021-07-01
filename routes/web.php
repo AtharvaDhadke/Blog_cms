@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\TagsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,11 +17,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
-Route::get('/', [FrontendController::class, 'index']);
+Route::get('/', [FrontendController::class, 'index'])->name('home');
+Route::get('/blogs/{post}', [FrontendController::class, 'show'])->name('blogs.show');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -27,8 +26,8 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 
-//Application Routes
-
-Route::resource('categories', App\Http\Controllers\CategoriesController::class)->middleware(['auth']);
-
-Route::resource('tags', App\Http\Controllers\TagsController::class)->middleware(['auth']);
+// Application routes
+// NOTE: have used raw URL instead of categories.destroy
+Route::resource('categories', CategoriesController::class)->middleware(['auth']);
+Route::resource('tags', TagsController::class)->middleware(['auth']);
+Route::resource('posts', PostController::class)->middleware(['auth']);
