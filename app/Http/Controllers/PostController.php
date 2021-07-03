@@ -15,9 +15,21 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        $this->middleware(['validateAuthor'])->only('edit','update','destroy','trash');
+        $this->middleware(['verifyCategoriesCount'])->only('create','store');
+
+    }
+
     public function index()
     {
-        $posts = Post::paginate(3);
+        if(auth()->user()->isAdmin()) {
+            $posts = Post::paginate(3);
+        } else {
+            $posts = Post::where('user_id', auth()->id())->paginate(10);
+        }
         return view('posts.index', compact('posts'));
     }
 
@@ -109,8 +121,35 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post)
+    public function destroy($id)
     {
-        //
+        $post = Post::onlyTrashed()->findOrFail($id);
+        $post->deleteImage();
+        $post->ForceDelete();
+        session()->flash('success', 'Post deleted succesfully');
+        return redirect(route('posts.trashed'));
     }
+
+    public function trashed()
+    {
+        $trashed = Post::onlyTrashed()->paginate(10);
+        return view('posts.trashed', ['posts'=> $trashed]);
+    }
+
+    public function trash(Post $post)
+    {
+        $post->delete();
+        session()->flash('success', 'Post Trashed');
+        return redirect(route('posts.index'));
+
+    }
+
+    public function restore($id)
+    {
+        $trashedPost = Post::onlyTrashed()->findOrFail($id);
+        $trashedPost->restore();
+        session()->flash('success','Post restored successfully !');
+        return redirect(route('posts.index'));
+    }
+
 }

@@ -108,9 +108,12 @@ class CategoriesController extends Controller
      */
     public function destroy(Category $category)
     {
+        if($category->posts()->withTrashed()->count() > 0) {
+            session()->flash('error', 'This category cannot be deleted');
+            return redirect(route('categories.index'));
+        }
         $category->delete();
-
-        session()->flash('success','Category deleted successfully');
+        session()->flash('success', 'Category deleted Successfully');
         return redirect(route('categories.index'));
     }
 }

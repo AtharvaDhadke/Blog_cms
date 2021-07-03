@@ -51,6 +51,9 @@
                                <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link" href="{{ route('home') }}">Home</a>
+                             </li>
+                            <li class="nav-item">
                                <a class="nav-link active" href="{{ route('categories.index') }}">Categories</a>
                              </li>
                              <li class="nav-item">
@@ -58,7 +61,14 @@
                              </li>
                              <li class="nav-item">
                                 <a class="nav-link" href="{{ route('posts.index') }}">Posts</a>
-                              </li>
+                             </li>
+                             <li class="nav-item">
+                                <a class="nav-link" href="{{ route('users.index') }}">Users</a>
+                             </li>
+
+                             <li class="nav-item">
+                                <a class="nav-link" href="{{ route('posts.trashed') }}">Trash Posts</a>
+                             </li>
                         </ul>
                     </div>
                 </div>

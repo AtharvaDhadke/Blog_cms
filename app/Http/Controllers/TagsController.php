@@ -96,5 +96,16 @@ class TagsController extends Controller
         session()->flash('success', 'Tag deleted successfully');
 
         return redirect(route('tags.index'));
+
+        if($tag->post->count() > 0)
+        {
+            \session()->flash('error', 'THis Category connot be deleted');
+            return redirect(route('tags.index'));
+        }
+
+        $tag->delete();
+
+        session()->flash('success', 'Tag deleted Successfully');
+        return redirect(route('tags.index'));
     }
 }
